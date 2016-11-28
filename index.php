@@ -15,6 +15,12 @@ $counter = 0;
 $score = 0;
     
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
+    if (!isset($_SESSION['score'])){
+        $_SESSION['score'] = 0;
+    }
+    if (!isset($_SESSION['counter'])){
+        $_SESSION['counter'] = 0;
+    }
     if ($_SESSION['sign'] == "+") {
         $answer = $_SESSION['first'] + $_SESSION['second'];
     } else {
@@ -28,25 +34,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     if ($_POST['answer'] == $answer){
          $answerErr = "Good Answer!!";
-        
-        if ($_SESSION['score'] > 0){
+            
         $score = $_SESSION['score'];
         $score++;
         $_SESSION['score'] = $score;
-    } else {
-        $score++;
-        $_SESSION['score'] = $score; 
-    }
-    }
-    if ($_SESSION['counter'] > 0){
-        $counter = $_SESSION['counter'];
-        $counter++;
-        $_SESSION['counter'] = $counter;
-    } else {
-        $counter++;
-        $_SESSION['counter'] = $counter; 
     }
     
+    $counter = $_SESSION['counter'];
+    $counter++;
+    $_SESSION['counter'] = $counter;
 }
     ?>
 
@@ -98,7 +94,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             <hr />
             <div class="form-group">
                 <div class="col-sm-2">
-                    <h4>Score <?php echo $_SESSION['score']; ?> / <?php echo $_SESSION['counter']; ?> </h4>
+                    <h4>Score <?php if (isset($_SESSION['score'])) { 
+                                        echo $_SESSION['score']; 
+                                    } else { 
+                                        echo 0; 
+                                    } ?> / 
+                                <?php if (isset($_SESSION['counter'])) { 
+                                        echo $_SESSION['counter']; 
+                                    } else { 
+                                        echo 0;
+                                    } ?> </h4>
                 </div>
             </div>
         </form>
