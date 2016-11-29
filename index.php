@@ -15,6 +15,7 @@ $counter = 0;
 $score = 0;
     
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
+    $valid = true;
     if (!isset($_SESSION['score'])){
         $_SESSION['score'] = 0;
     }
@@ -26,23 +27,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     } else {
         $answer = $_SESSION['first'] - $_SESSION['second'];
     }
-    $valid = true;
-    if ($_POST['answer'] != $answer) {
-        $answerErr = "Wrong Answer!!";
+    if (!is_numeric($_POST['answer'])) {
+        $answerErr = "Must be a number!";
+    } else {
+        if ($_POST['answer'] != $answer) {
+            $answerErr = "Wrong Answer!!";
             $valid = false;
+        }
+        if ($_POST['answer'] == $answer){
+            $answerErr = "Good Answer!!";
             
-    }
-    if ($_POST['answer'] == $answer){
-         $answerErr = "Good Answer!!";
-            
-        $score = $_SESSION['score'];
-        $score++;
-        $_SESSION['score'] = $score;
-    }
+            $score = $_SESSION['score'];
+            $score++;
+            $_SESSION['score'] = $score;
+        }
     
-    $counter = $_SESSION['counter'];
-    $counter++;
-    $_SESSION['counter'] = $counter;
+        $counter = $_SESSION['counter'];
+        $counter++;
+        $_SESSION['counter'] = $counter;
+    }
 }
     ?>
 
