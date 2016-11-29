@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
      if ($valid) {
          session_start();
         header('Location: index.php');
-        exit();
+        die();
     }
 }
     
